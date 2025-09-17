@@ -1,0 +1,15 @@
+{
+  "version": 2,
+  "minor_version": 1,
+  "key": "person",
+  "data": {
+    "items": [
+      {
+        "id": "ch",
+        "name": "CH",
+        "user_id": "9f5cb8adef0f4b818269935a82395ae0",
+        "device_trackers": []
+      }
+    ]
+  }
+}

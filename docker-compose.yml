@@ -1,0 +1,53 @@
+services:
+  frigate:
+    container_name: frigate
+    image: ghcr.io/blakeblackshear/frigate:0.16.0-beta4
+    privileged: true
+    restart: unless-stopped
+    shm_size: "64mb"
+    devices:
+      - /dev/bus/usb:/dev/bus/usb  
+    volumes:
+      - ./frigate/config:/config                       
+      - ./frigate/media:/media/frigate                
+      - ./frigate/models:/config/models                
+      - ./frigate/known_faces:/media/faces             
+      - type: tmpfs                            
+        target: /tmp/cache
+        tmpfs:
+          size: 100000000
+    ports:
+      - "5000:5000"                            
+    environment:
+      FRIGATE_RTSP_PASSWORD: "L282777A"
+    networks:
+      - home-net
+
+  mosquitto:
+    image: eclipse-mosquitto
+    container_name: mosquitto
+    restart: unless-stopped
+    ports:
+      - "1883:1883"
+      - "9001:9001"
+    volumes:
+      - ./mosquitto/config:/mosquitto/config
+      - ./mosquitto/data:/mosquitto/data
+      - ./mosquitto/log:/mosquitto/log
+    networks:
+      - home-net
+
+  homeassistant:
+    container_name: homeassistant
+    image: ghcr.io/home-assistant/home-assistant:stable
+    restart: unless-stopped
+    ports:
+      - "8123:8123"
+    volumes:
+      - ./homeassistant/config:/config
+    networks:
+      - home-net
+
+networks:
+  home-net:
+    driver: bridge

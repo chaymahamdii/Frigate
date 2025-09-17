@@ -1,0 +1,3 @@
+# Ignorer les fichiers de cache des modèles
+config/model_cache/
+config/models/face_recognition.onnx
